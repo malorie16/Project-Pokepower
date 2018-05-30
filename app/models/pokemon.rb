@@ -1,5 +1,4 @@
 class Pokemon < ActiveRecord::Base
-  belongs_to :trainers
-  belongs_to :teams
-  belongs_to :pokedex
+  has_many :trainers, through: :pokeballs
+  has_many :pokeballs
 end

@@ -12,7 +12,12 @@
 
 ActiveRecord::Schema.define(version: 20180530151534) do
 
-  create_table "pokedexes", force: :cascade do |t|
+  create_table "pokeballs", force: :cascade do |t|
+    t.integer "pokemon_id"
+    t.integer "trainer_id"
+  end
+
+  create_table "pokemons", force: :cascade do |t|
     t.string  "name"
     t.string  "description"
     t.float   "height"
@@ -29,21 +34,6 @@ ActiveRecord::Schema.define(version: 20180530151534) do
     t.integer "base_sp_defense"
     t.integer "base_speed"
     t.integer "base_experience"
-  end
-
-  create_table "pokemons", force: :cascade do |t|
-    t.integer "pokedex_id"
-    t.integer "trainer_id"
-    t.integer "team_id"
-  end
-
-  create_table "teams", force: :cascade do |t|
-    t.integer "pokemon_id_1"
-    t.integer "pokemon_id_2"
-    t.integer "pokemon_id_3"
-    t.integer "pokemon_id_4"
-    t.integer "pokemon_id_5"
-    t.integer "pokemon_id_6"
   end
 
   create_table "trainers", force: :cascade do |t|
