@@ -64,12 +64,14 @@ class CommandLineInterface
     until user_input == 5
       case user_input
       when 1
-        view_team(user)
+        view_team(user, "yes")
         break
       # when 2
       #   add_pokemon_to_team
-      # when 3
-      #   set_pokemon_free
+      #   break
+      when 3
+        set_pokemon_free(user)
+        break
       when 4
         view_stats(user)
         break
@@ -89,18 +91,18 @@ class CommandLineInterface
       end
       team
     elsif purpose == "team"                    #for #remove method
-
+      team = user.pokemons
     end
   end
 
-  def view_team(user)
+  def view_team(user, stats)
     team = get_own_team(user, "names")
     system("clear")
     counter = 0
      team.each do |poke|
        puts "#{counter += 1}. #{poke}"
      end
-     view_team_stats(user)
+     stats == "yes" ? view_team_stats(user) : nil
   end
 
   def stats_table(pokemon)
@@ -129,7 +131,7 @@ class CommandLineInterface
 
   def view_team_stats(trainer)
     #for specific user's team
-    puts "Would you like to these guys' stats? (Y or N)"
+    puts "Would you like to see these guys' stats? (Y or N)"
     user_input = gets.chomp
     if user_input.upcase == "Y"
       system("clear")
@@ -188,29 +190,36 @@ class CommandLineInterface
   def set_pokemon_free(user)
       #takes pokemon off team
      puts "Do you wanna set them free? Do you really? (Y or N)"
-       user_input = gets.chomp
-       if user_input.upcase == "Y"
-         puts "Which Pokemon do you wanna remove, playa?"
-         # system("clear")
-         view_team(user)
-         user_yes
+     user_input = gets.chomp
+     if user_input.upcase == "Y"
+       users_team = view_team(user, "no")
+       puts "Which Pokemon do you wanna remove, playa?"
+       # system("clear")
+       user_yes(user, users_team)
      elsif user_input.upcase == "N"
        user_no
        show_menu(user)
      end
    end
 
-   def user_yes
+   def user_yes(user, users_team)
      # what happens if they say yes
+     puts users_team
+     raw_team = get_own_team(user, "team")
+     # user_input 1 -> get_own_team 0
+     # pokemon
+     # poke_length = pokemon.length
+     # pokemon[3..poke_length]
      user_input = gets.chomp.to_i
-
      if user_input == 1
-       view_team
-    elsif user_input == 2
-    elsif user_input == 3
-    elsif user_input == 4
-    elsif user_input == 5
-    elsif user_input == 6
+       puts "You DEADASS tryna delete #{raw_team[0].name}????"
+       system("say 'You DEADASS tryna delete #{raw_team[0].name}????'")
+       
+     elsif user_input == 2
+     elsif user_input == 3
+     elsif user_input == 4
+     elsif user_input == 5
+     elsif user_input == 6
      end
    end
 
