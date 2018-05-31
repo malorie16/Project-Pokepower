@@ -56,17 +56,19 @@ class CommandLineInterface
     puts "4. View Pokestats" #submenu
     puts "5. Exit"
     user_input = gets.chomp.to_i
-    case user_input
-    when 1
-      view_team(user)
-    # when 2
-    #   add_pokemon_to_team
-    # when 3
-    #   set_pokemon_free
-    when 4
-      view_stats(user)
-    # when 5
-    #   log_off
+    until user_input == 5
+      case user_input
+      when 1
+        view_team(user)
+      # when 2
+      #   add_pokemon_to_team
+      # when 3
+      #   set_pokemon_free
+      when 4
+        view_stats(user)
+      # when 5
+      #   log_off
+      end
     end
   end
 
@@ -178,9 +180,9 @@ class CommandLineInterface
 
 
 
-  def log_off
-    #exits program
-  end
+  # def log_off
+  #   #exits program
+  # end
 
 
 
