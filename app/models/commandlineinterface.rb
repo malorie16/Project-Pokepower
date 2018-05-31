@@ -60,12 +60,14 @@ class CommandLineInterface
       case user_input
       when 1
         view_team(user)
+        break
       # when 2
       #   add_pokemon_to_team
       # when 3
       #   set_pokemon_free
       when 4
         view_stats(user)
+        break
       # when 5
       #   log_off
       end
@@ -113,6 +115,7 @@ class CommandLineInterface
     puts "Would you like to these guys' stats? (Y or N)"
     user_input = gets.chomp
     if user_input.upcase == "Y"
+      system("clear")
       puts "Get ready for your dream team's stats!"
       trainer.pokemons.each do |pokemon|
         puts stats_table(pokemon)
