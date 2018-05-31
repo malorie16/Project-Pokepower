@@ -5,8 +5,8 @@ class CreatePokemon < ActiveRecord::Migration[5.0]
       t.string :description
       t.float :height
       t.float :weight
-      t.integer :type_1
-      t.integer :type_2
+      t.string :type_1
+      t.string :type_2
       t.string :weakness_1
       t.string :weakness_2
       t.integer :catch_rate

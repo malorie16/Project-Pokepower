@@ -4,8 +4,7 @@ require_all 'app'
 require 'pry'
 
 new_cli = CommandLineInterface.new
-#new_cli.run
+new_cli.run
 
-new_cli.test
 
-binding.pry
+# binding.pry
