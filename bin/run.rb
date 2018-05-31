@@ -1,4 +1,5 @@
 require_relative '../config/environment'
+
 require_all 'app'
 require 'pry'
 
