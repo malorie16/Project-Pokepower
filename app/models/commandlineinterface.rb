@@ -56,8 +56,17 @@ class CommandLineInterface
     puts "4. View Pokestats" #submenu
     puts "5. Exit"
     user_input = gets.chomp.to_i
-    if user_input == 1
+    case user_input
+    when 1
       view_team(user)
+    # when 2
+    #   add_pokemon_to_team
+    # when 3
+    #   set_pokemon_free
+    when 4
+      view_stats
+    # when 5
+    #   log_off
     end
   end
 
@@ -110,7 +119,7 @@ class CommandLineInterface
 
   def view_stats #for submenu
     # need to create an exit option
-    
+
   end
 
 
