@@ -45,7 +45,7 @@ class CommandLineInterface
   end
 
   def welcome
-    puts "And now the fun begins! 👻 Pick a number to get started!"
+    puts "Pick a number to get started! 👻 "
   end
 
   def show_menu(user)
@@ -82,6 +82,30 @@ class CommandLineInterface
      view_team_stats(user)
   end
 
+  def stats_table(pokemon)
+    stats = <<-STATS
+    _____________________________________________________________________
+    | Name: #{pokemon.name}
+    | Description: #{pokemon.description}
+    | Height: #{pokemon.height}
+    | Weight: #{pokemon.weight}
+    | Type 1: #{pokemon.type_1}
+    | Type 2: #{pokemon.type_2}
+    | Weakness 1: #{pokemon.weakness_1}
+    | Weakness 2: #{pokemon.weakness_2}
+    | Catch Rate: #{pokemon.catch_rate}
+    | Base HP: #{pokemon.base_hp}
+    | Base Attack: #{pokemon.base_attack}
+    | Base Defense: #{pokemon.base_defense}
+    | Base Sp Attack: #{pokemon.base_sp_attack}
+    | Base Sp Defense: #{pokemon.base_sp_defense}
+    | Base Speed: #{pokemon.base_speed}
+    | Base Exp: #{pokemon.base_experience}
+    |____________________________________________________________________
+    STATS
+    stats
+  end
+
   def view_team_stats(trainer)
     #for specific user's team
     puts "Would you like to these guys' stats? (Y or N)"
@@ -89,37 +113,21 @@ class CommandLineInterface
     if user_input.upcase == "Y"
       puts "Get ready for your dream team's stats!"
       trainer.pokemons.each do |pokemon|
-        stats = <<-STATS
-        _____________________________________________________________________
-        | Name: #{pokemon.name}
-        | Description: #{pokemon.description}
-        | Height: #{pokemon.height}
-        | Weight: #{pokemon.weight}
-        | Type 1: #{pokemon.type_1}
-        | Type 2: #{pokemon.type_2}
-        | Weakness 1: #{pokemon.weakness_1}
-        | Weakness 2: #{pokemon.weakness_2}
-        | Catch Rate: #{pokemon.catch_rate}
-        | Base HP: #{pokemon.base_hp}
-        | Base Attack: #{pokemon.base_attack}
-        | Base Defense: #{pokemon.base_defense}
-        | Base Sp Attack: #{pokemon.base_sp_attack}
-        | Base Sp Defense: #{pokemon.base_sp_defense}
-        | Base Speed: #{pokemon.base_speed}
-        | Base Exp: #{pokemon.base_experience}
-        |____________________________________________________________________
-        STATS
-        puts stats
-        show_menu(trainer)
+        puts stats_table(pokemon)
       end
+      show_menu(trainer)
     elsif user_input.upcase == "N"
       show_menu(trainer)
     end
   end
 
-  def view_stats #for submenu
-    # need to create an exit option
-
+  def view_stats
+    #for submenu
+    puts "Which Pokemon's stats does yee heart desire?"
+    puts "Enter this Pokemon's name when you're ready!"
+    user_input = gets.chomp.capitalize
+    found_pokemon = Pokemon.all.find_by(name: user_input)
+    puts found_pokemon[0]
   end
 
 
