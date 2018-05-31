@@ -64,7 +64,7 @@ class CommandLineInterface
     # when 3
     #   set_pokemon_free
     when 4
-      view_stats
+      view_stats(user)
     # when 5
     #   log_off
     end
@@ -121,13 +121,14 @@ class CommandLineInterface
     end
   end
 
-  def view_stats
+  def view_stats(trainer)
     #for submenu
     puts "Which Pokemon's stats does yee heart desire?"
     puts "Enter this Pokemon's name when you're ready!"
     user_input = gets.chomp.capitalize
     found_pokemon = Pokemon.all.find_by(name: user_input)
-    puts found_pokemon[0]
+    puts stats_table(found_pokemon)
+    show_menu(trainer)
   end
 
 
