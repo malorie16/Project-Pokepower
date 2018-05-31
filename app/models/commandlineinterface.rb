@@ -1,9 +1,15 @@
 class CommandLineInterface
 
   def greeting
-    puts "---Module 1 Group Project---"
-    puts "--The Pokemon Project--"
-    puts "-Aisatou-Malorie-Paul-"
+    message = <<-MESSAGE
+    **********************************************************************
+    *              "Welcome to Straight Outta Terminal's"                *
+    *                      "Module 1 Project"                            *
+    *                       "By yours truly"                             *
+    *                    "Aisatou, Malorie, Paul"                        *
+    **********************************************************************
+    MESSAGE
+    puts message
   end
 
   def verify_username(user_input)
@@ -26,10 +32,10 @@ class CommandLineInterface
     if returning_trainer = Trainer.find_by(name: user_input.capitalize)
       system("clear")
       system "say 'Welcome back, #{returning_trainer.name}!'"
-      show_menu(returning_trainer)
+      returning_trainer
     else
       user = create_new_user(user_input)
-      show_menu(user)
+      user
     end
   end
 
@@ -185,11 +191,6 @@ class CommandLineInterface
 
 
 
-  # def log_off
-  #   #exits program
-  # end
-
-
 
 
 
@@ -204,7 +205,7 @@ class CommandLineInterface
 
   def run
     greeting
-    get_username
+    show_menu(get_username)
   end
 
 end
