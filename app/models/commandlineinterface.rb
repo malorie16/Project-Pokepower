@@ -22,6 +22,7 @@ class CommandLineInterface
   end
 
   def gauge_visitor(user_input)
+    sleep(1)
     if returning_trainer = Trainer.find_by(name: user_input.capitalize)
       system("clear")
       system "say 'Welcome back, #{returning_trainer.name}!'"
@@ -132,6 +133,7 @@ class CommandLineInterface
     puts "Enter this Pokemon's name when you're ready!"
     user_input = gets.chomp.capitalize
     found_pokemon = Pokemon.all.find_by(name: user_input)
+    system("clear")
     puts stats_table(found_pokemon)
     show_menu(trainer)
   end
