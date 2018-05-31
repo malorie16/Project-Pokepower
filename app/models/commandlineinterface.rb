@@ -82,10 +82,19 @@ class CommandLineInterface
     end
   end
 
-  def view_team(user)
-    team = user.pokemons.map do |pokemon|
-      pokemon.name
+  def get_own_team(user, purpose)
+    if purpose == "names"                     #for #view_team
+      team = user.pokemons.map do |pokemon|
+        pokemon.name
+      end
+      team
+    elsif purpose == "team"                    #for #remove method
+
     end
+  end
+
+  def view_team(user)
+    team = get_own_team(user, "names")
     system("clear")
     counter = 0
      team.each do |poke|
@@ -175,13 +184,41 @@ class CommandLineInterface
 
 
 
-  def set_pokemon_free
-    #takes pokemon off team
-    #aisatou
-  end
 
+  def set_pokemon_free(user)
+      #takes pokemon off team
+     puts "Do you wanna set them free? Do you really? (Y or N)"
+       user_input = gets.chomp
+       if user_input.upcase == "Y"
+         puts "Which Pokemon do you wanna remove, playa?"
+         # system("clear")
+         view_team(user)
+         user_yes
+     elsif user_input.upcase == "N"
+       user_no
+       show_menu(user)
+     end
+   end
 
+   def user_yes
+     # what happens if they say yes
+     user_input = gets.chomp.to_i
 
+     if user_input == 1
+       view_team
+    elsif user_input == 2
+    elsif user_input == 3
+    elsif user_input == 4
+    elsif user_input == 5
+    elsif user_input == 6
+     end
+   end
+
+   def user_no
+     # what happens if they say no
+     puts "Woo! That was a close one. The Pokemon are safe.. for now."
+     puts "Back to the menu we go!"
+   end
 
 
 
