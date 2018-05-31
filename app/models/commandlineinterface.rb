@@ -45,18 +45,16 @@ class CommandLineInterface
     result = verify_username(user_input).capitalize
     if result == "Yes"
       puts "What a lovely name!"
+      sleep(0.2)
+      puts "Menu loading..."
       gauge_visitor(user_input)
     elsif result == "No"
       get_username
     end
   end
 
-  def welcome
-    puts "Pick a number to get started! 👻 "
-  end
-
   def show_menu(user)
-    welcome
+    puts "Pick a number to get started! 👻 "
     puts "1. View Team"
     puts "2. Add Pokemon to team"
     puts "3. Set pokemon free" #needs confirmation
@@ -77,6 +75,9 @@ class CommandLineInterface
         break
       # when 5
       #   log_off
+      else
+        puts "Whaddya doing? Try again"
+        show_menu(user)
       end
     end
   end
