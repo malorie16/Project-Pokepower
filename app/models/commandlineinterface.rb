@@ -74,19 +74,98 @@ class CommandLineInterface
     #method for stats
     user_input = gets.chomp
     if user_input.upcase == "Y"
-      view_pokemon_stats
+      view_team_stats(team)
     else
       show_menu(user)
     end
   end
 
-  def view_pokemon_stats #for specific user's pokemon
-    
+  def view_team_stats(team)
+    #for specific user's team
+    #paul
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   def view_stats #for submenu
     # need to create an exit option
+    #paul
   end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  def add_pokemon_to_team
+    #adds pokemon to team
+    #player can only have 6 teams
+    #malorie
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+  def set_pokemon_free
+    #takes pokemon off team
+    #aisatou
+  end
+
+
+
+
+
+
+
+
+
+
+
+
+
+  def log_off
+    #exits program
+  end
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   def run
