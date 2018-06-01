@@ -149,6 +149,7 @@ class CommandLineInterface
   end
 
   def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
+    user.reload
     if check_users_pokeballs(user)
       team = get_own_team(user, "names")
       system("clear")
@@ -233,11 +234,12 @@ class CommandLineInterface
 
   def set_pokemon_free(user)
       #takes pokemon off team
+      user.reload 
     if check_users_pokeballs(user)
       users_team = view_team(user, "no")  #no refers to don't show team's pokemon's stats
       puts "Which Pokemon do you wanna remove, playa?"
       delete_pokemon(user, users_team)
-      load "db/development.db"
+      # load "db/development.db"
     else
       system("clear")
       puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to release!!"
