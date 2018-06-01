@@ -135,15 +135,11 @@ class CommandLineInterface
        puts "You have a brand spanking new #{pokemon.name}!"
    end
 
-   def want_another_pokemon
+   def want_another_pokemon(user)
      puts "Want another pokemon? (Y or N)"
      user_response = poke_prompt
      if user_response == "Y"
-       puts "Who do you want?"
-       user_request = gets.chomp.capitalize
-       add_pokemon_to_team(user, user_request)
-       system("clear")
-       puts "You have a brand new #{pokemon.name}!"
+       add_pokemon(user)
      else
        show_menu(user)
      end
@@ -164,9 +160,10 @@ class CommandLineInterface
       show_menu(user)
     elsif user_input.downcase == "idk"
       list_all_pokemon
+      add_pokemon(user)
     elsif user.pokeballs.length < 6
       add_pokemon_to_team(user, user_input)
-      want_another_pokemon
+      want_another_pokemon(user)
     else
       show_menu(user)
     end
