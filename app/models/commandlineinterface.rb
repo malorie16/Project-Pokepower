@@ -212,9 +212,13 @@ class CommandLineInterface
      # pokemon[3..poke_length]
      user_input = gets.chomp.to_i
      if user_input == 1
-       puts "You DEADASS tryna delete #{raw_team[0].name}????"
-       system("say 'You DEADASS tryna delete #{raw_team[0].name}????'")
-       
+       delete_pokemon = raw_team[0]
+       puts "You DEADASS tryna delete #{delete_pokemon.name}????"
+       # system("say 'You DEADASS tryna delete #{delete_pokemon.name}????'")
+       puts delete_pokemon.id
+       pokeball_ids = user.pokeballs.map{|pokeball| pokeball.pokemon_id}
+       puts pokeball_ids
+
      elsif user_input == 2
      elsif user_input == 3
      elsif user_input == 4
