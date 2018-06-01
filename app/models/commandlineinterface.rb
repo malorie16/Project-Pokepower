@@ -2,6 +2,8 @@ class CommandLineInterface
 
 =begin_________________________
       PROGRAM BOOT / #run
+      system("afplay Pokemon_Theme_Song.mp3")
+      system("afplay Desktop/Pokemon_Theme_Song.mp3")
       1. greeting
       2. get_username
       3. verify_username
@@ -10,7 +12,7 @@ class CommandLineInterface
 
       VIEW TEAM
       1. view_team - connected view_team_stats in case trainer is interested
-      2. menu 
+      2. menu
 
       ADD POKEMON
       1.
