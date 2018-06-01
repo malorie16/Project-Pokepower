@@ -1,36 +1,5 @@
 class CommandLineInterface
 
-=begin_________________________
-      PROGRAM BOOT / #run
-      system("afplay Pokemon_Theme_Song.mp3")
-      system("afplay Desktop/Pokemon_Theme_Song.mp3")
-      1. greeting
-      2. get_username
-      3. verify_username
-      4. gauge_visitor / create_new_user - only if user isn't in db (by name)
-      5. show_menu
-
-      VIEW TEAM
-      1. view_team - connected view_team_stats in case trainer is interested
-      2. menu
-
-      ADD POKEMON
-      1.
-      2.
-
-      SET FREE
-      1. set_pokemon_free - checks for available pokemon to remove
-      2. delete_pokemon - setup and helper method
-      3. db_remove_pokemon - actual delete method
-
-      VIEW STATS
-      view_stats
-
-      EXIT
-      1. until '5' is entered when menu is open, allow all other functionality
-      AKA leaves program when '5' is entered in the menu
-=end
-
   def greeting # num1 in #run
     message = <<-MESSAGE
     **********************************************************************
@@ -65,8 +34,10 @@ class CommandLineInterface
       system("clear")
       puts "Welcome back, #{returning_trainer.name}!"
       # system "say 'Welcome back, #{returning_trainer.name}!'"
+      returning_trainer
     else
       user = create_new_user(user_input)
+      user
     end
   end
 

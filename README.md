@@ -1,4 +1,38 @@
-# Module One Project 
+
+___________________________________________________________________________
+      PROGRAM BOOT / #run
+      system("afplay Pokemon_Theme_Song.mp3")
+      system("afplay Desktop/Pokemon_Theme_Song.mp3")
+      1. greeting
+      2. get_username
+      3. verify_username
+      4. gauge_visitor / create_new_user - only if user isn't in db (by name)
+      5. show_menu
+
+      VIEW TEAM
+      1. view_team
+      2. get_own_team
+      3. view_team_stats in case trainer is interested
+      4. menu
+
+      ADD POKEMON
+      1.
+      2.
+
+      SET FREE
+      1. set_pokemon_free - checks for available pokemon to remove
+      2. delete_pokemon - setup and helper method
+      3. db_remove_pokemon - actual delete method
+
+      VIEW STATS
+      view_stats
+
+      EXIT
+      1. until '5' is entered when menu is open, allow all other functionality
+      AKA leaves program when '5' is entered in the menu
+______________________________________________________________________
+
+# Module One Project
 
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
 
