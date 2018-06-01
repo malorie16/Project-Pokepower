@@ -391,8 +391,6 @@ class CommandLineInterface
     elsif user.pokeballs.length < 6
       add_pokemon_to_team(user, user_input)
       want_another_pokemon(user)
-    else
-      show_menu(user)
     end
   end
 
