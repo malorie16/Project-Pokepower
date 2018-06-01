@@ -127,13 +127,21 @@ class CommandLineInterface
   end
 
   def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
-    team = get_own_team(user, "names")
+    users_team = get_own_team(user, "names")
     system("clear")
-    counter = 0
-     team.each do |poke|
-       puts "#{counter += 1}. #{poke}"
+    if users_team.size >= 1
+      team = get_own_team(user, "names")
+      system("clear")
+      counter = 0
+       team.each do |poke|
+         puts "#{counter += 1}. #{poke}"
+       end
+       stats == "yes" ? view_team_stats(user) : nil
+     elsif users_team.size <= 0
+       puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to view!!"
+       sleep(1)
      end
-     stats == "yes" ? view_team_stats(user) : nil
+     show_menu(user)
   end
 
   def stats_table(pokemon)
@@ -204,7 +212,9 @@ class CommandLineInterface
       puts "Which Pokemon do you wanna remove, playa?"
       delete_pokemon(user, users_team)
     elsif users_team.size <= 0
-      "Oh no! You're too weak to have any pokemon. You, #{user}, don't have any!!"
+      system("clear")
+      puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to release!!"
+      sleep(1)
     end
     show_menu(user)
    end
