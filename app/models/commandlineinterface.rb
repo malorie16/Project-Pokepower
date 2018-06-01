@@ -15,7 +15,7 @@ class CommandLineInterface
     **********************************************************************
     MESSAGE
     puts message
-     pid = fork{ exec 'afplay', "All Main Pokémon Game OPenings (GB, GBC, GBA, NDS) (1).mp3"}
+     pid = fork{ exec 'afplay', "PokeThemes2.mp3"}
     puts prof_oak
   end
 
