@@ -1,4 +1,41 @@
-# Module One Project 
+Project Pokepower
+
+Create your dream Pokemon team with our CLI app
+
+Install
+Simply clone down this repo, cd in and do:
+
+$ ruby bin/run.rb
+
+Overview
+Project Pokepower is the dream app for the ready trainer. Have you ever wanted to make your dream team of Pokemon and be able to see their stats. You can add up to 6 Pokemon to your team!
+
+How to use
+You have 5 options to choose from on the menu. To access every command here (and everywhere in the app) type in either the number, letter, or words you need to, and then hit enter.
+
+Here are the options you can choose from:
+
+1: View team
+
+2: Add pokemon to team
+
+3: Set Pokemon free
+
+4: View Pokestats
+
+5: Exit
+
+
+
+Team
+This app was lovingly crafted by Shawn Koski and Mike Cronin. It was put together with lots of heart, but no sleep.
+
+
+
+
+
+
+<!-- # Module One Project
 
 Congratulations, you're at the end of module one! You've worked crazy hard to get here and have learned a ton.
 
@@ -214,4 +251,4 @@ Now, add this method to the run method, and pass it the lines we got in the ```f
 
 
 
-<p class='util--hide'>View <a href='https://learn.co/lessons/guided-module-one-final-project'>Guided Module One Final Project</a> on Learn.co and start learning to code for free.</p>
+<p class='util--hide'>View <a href='https://learn.co/lessons/guided-module-one-final-project'>Guided Module One Final Project</a> on Learn.co and start learning to code for free.</p> -->

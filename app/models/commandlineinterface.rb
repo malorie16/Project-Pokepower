@@ -15,7 +15,7 @@ class CommandLineInterface
     **********************************************************************
     MESSAGE
     puts message
-    # system("afplay -v 50 ~/Development/code/Mod_1/guided-module-one-final-project-dumbo-web-051418/Pokemon_Theme_Song.mp3")
+     pid = fork{ exec 'afplay', "All Main Pokémon Game OPenings (GB, GBC, GBA, NDS) (1).mp3"}
     puts prof_oak
   end
 
@@ -38,7 +38,6 @@ class CommandLineInterface
   end
 
   def create_new_user(user_input)
-    system("clear")
     puts "Welcome #{user_input.capitalize}! Where are you from?"
     user_location = gets.chomp
     new_trainer = Trainer.create(name: user_input.capitalize, hometown: user_location.capitalize)
@@ -110,9 +109,9 @@ class CommandLineInterface
       when 1
         view_team(user, "yes")
         break
-      # when 2
-      #   add_pokemon_to_team
-      #   break
+      when 2
+         add_pokemon(user)
+        break
       when 3
         set_pokemon_free(user)
         break
@@ -208,14 +207,30 @@ class CommandLineInterface
   end
 
   def loop_stats(trainer)
-    puts "Did #{trainer.name} seek another Pokemon's data? (Y or N)"
+    puts "Did you want seek another Pokemon's data? (Y or N)"
     user_input = gets.chomp.upcase
     user_input=="Y" ? view_stats(trainer) : system("clear")
   end
 
-  def view_stats(trainer)
-    #for submenu
-    puts "Which Pokemon's stats does yee heart desire?"
+  def find_stats_submenu(trainer)
+    puts "Did ya wanna find Poke stats by (1)name, or by (2)pokedex number?"
+    sleep(1.4)
+    puts "Enter the number, or else we'll release a Gengar in your bedroom."
+
+    user_input = gets.chomp.to_i
+    until user_input != 1 || user_input != 2
+      puts "For Brock's sake input '1' or '2'!"
+      user_input = gets.chomp.to_i
+    end
+
+    if user_input == 1
+      find_stats_by_name(trainer)
+    elsif user_input == 2
+      find_stats_by_id
+    end
+  end
+
+  def find_stats_by_name(trainer)
     puts "Enter this Pokemon's name when you're ready!"
     user_input = gets.chomp.capitalize
     found_pokemon = Pokemon.all.find_by(name: user_input)
@@ -227,70 +242,45 @@ class CommandLineInterface
       system("clear")
       puts "fuhgeddaboudit, there ain't a Pokemon named #{user_input}!"
       sleep(1)
+      find_stats_by_name(trainer)
     end
-    show_menu(trainer)
   end
 
-
-  def check_team_length(user)
-        team = user.pokemons.reload.map do |pokemon|
-        pokemon.name
-      end
+  def find_stats_by_id
+    puts "Enter the Pokedex ID now! The faster the better."
+    user_input = gets.chomp.to_i
+    pokedex_ids = 1..151
+    until pokedex_ids.include?(user_input)
+      puts "Let me throw some knowledge on you--there are only 151 Pokemon as of today."
+      sleep(0.7)
+      puts "You are out of usable Pokemon!"
+      sleep(0.3)
+      puts "You blacked out!"
+      sleep(0.2)
+      user_input = gets.chomp.to_i
     end
+    found_pokemon = Pokemon.all.find(user_input)
+    puts stats_table(found_pokemon)
+  end
 
-    def list_all_pokemon
-      counter = 0
-      puts "Here's a list to choose from:"
-      all_pokemon = Pokemon.all.map do |pokemon|
-        puts "#{counter += 1}. #{pokemon.name}"
-       end
-     end
-
-     def add_pokemon_to_team(user, user_response)
-       if Pokemon.find_by(name: user_response) == nil
-         puts "Whatchu talmbout?"
-         add_pokemon(user)
-       else
-       pokemon = Pokemon.find_by(name: user_response)
-         add_pokemon = Pokeball.create(pokemon_id: pokemon.id, trainer_id: user.id)
-         system("clear")
-         puts "You have a brand spanking new #{pokemon.name}!"
-       end
-     end
-
-     def want_another_pokemon(user)
-       puts "Want another pokemon? (Y or N)"
-       user_response = poke_prompt
-       if user_response == "Y"
-         add_pokemon(user)
-       else
-         show_menu(user)
-       end
-     end
-
-     def poke_prompt
-       gets.chomp.capitalize
-     end
-
-
-
-    def add_pokemon(user)
-      puts "Who do you want on your dream team? (Type Pokemon's name or IDK)"
-      user_input = poke_prompt
-
-      if check_team_length(user).length >= 6
-        puts "Your party is full!"
-        show_menu(user)
-      elsif user_input.downcase == "idk"
-        list_all_pokemon
-        add_pokemon(user)
-      elsif user.pokeballs.length < 6
-        add_pokemon_to_team(user, user_input)
-        want_another_pokemon(user)
-      else
-        show_menu(user)
-      end
+  def view_stats(trainer)
+    #for submenu
+    puts "Which Pokemon's stats does yee heart desire?"
+    sleep(1.3)
+    find_stats_submenu(trainer)
+    sleep(1)
+    puts "Did you wanna continue Prof Oak's research??? (Y/N)"
+    user_input = gets.chomp.upcase
+    until user_input != "Y" || user_input != "N"
+      puts "I SAID 'Y' or 'N'!!!!"
+      user_input = gets.chomp.upcase
     end
+    if user_input == "Y"
+      view_stats(trainer)
+    elsif user_input == "N"
+      show_menu(trainer)
+    end
+  end
 
 
   def set_pokemon_free(user)
@@ -338,18 +328,79 @@ class CommandLineInterface
      raw_team = get_own_team(user, "team")
      user_input = gets.chomp.to_i
 
-     if user_input > 0 && user_input <= 6
+     if user_input > 0 && user_input <= raw_team.length
        pokemon = raw_team[(user_input-1)]
        db_remove_pokemon(user, pokemon)
      else
        puts "Getting nervous? Second guesses? Cause, you've got a typo or something. #{user.name}, try again with the list number!"
-       sleep(0.5)
+       sleep(4)
+       set_pokemon_free(user)
      end
    end
+
+  def check_team_length(user)
+    team = user.pokemons.reload.map do |pokemon|
+      pokemon.name
+    end
+  end
+
+  def list_all_pokemon
+    counter = 0
+    puts "Here's a list to choose from:"
+    all_pokemon = Pokemon.all.map do |pokemon|
+      puts "#{counter += 1}. #{pokemon.name}"
+    end
+   end
+
+   def add_pokemon_to_team(user, user_response)
+     if Pokemon.find_by(name: user_response) == nil
+       puts "Whatchu talmbout?"
+       add_pokemon(user)
+     else
+       pokemon = Pokemon.find_by(name: user_response)
+       add_pokemon = Pokeball.create(pokemon_id: pokemon.id, trainer_id: user.id)
+       system("clear")
+       puts "You have a brand spanking new #{pokemon.name}!"
+     end
+   end
+
+   def want_another_pokemon(user)
+     puts "Want another pokemon? (Y or N)"
+     user_response = poke_prompt
+     if user_response == "Y"
+       add_pokemon(user)
+     else
+       show_menu(user)
+     end
+   end
+
+   def poke_prompt
+     gets.chomp.capitalize
+   end
+
+  def add_pokemon(user)
+    puts "Who do you want on your dream team? (Type Pokemon's name or IDK)"
+    user_input = poke_prompt
+
+    if check_team_length(user).length >= 6
+      puts "Your party is full!"
+      show_menu(user)
+    elsif user_input.downcase == "idk"
+      list_all_pokemon
+      add_pokemon(user)
+    elsif user.pokeballs.length < 6
+      add_pokemon_to_team(user, user_input)
+      want_another_pokemon(user)
+    else
+      show_menu(user)
+    end
+  end
 
   def run
     greeting
     show_menu(get_username)
+    pid = fork{ exec 'killall', "afplay" }
   end
 
 end
+#binding.pry
