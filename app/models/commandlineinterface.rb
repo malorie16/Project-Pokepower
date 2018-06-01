@@ -58,12 +58,12 @@ class CommandLineInterface
   end
 
   def get_username
-    puts "What's your nickname?"
-    user_input = gets.chomp
+    puts "First, what is your name?" #from what's your nickname
+    user_input = gets.chomp.capitalize
     result = verify_username(user_input).upcase
     if result == "Y"
-      puts "What a lovely name!"
-      sleep(0.3)
+      puts "Right! So your name is #{user_input}!" #from what a lovely name!
+      sleep(0.7)
       puts "Menu loading..."
       gauge_visitor(user_input)
     elsif result == "N"
