@@ -10,6 +10,20 @@ class CommandLineInterface
     **********************************************************************
     MESSAGE
     puts message
+    # system("afplay -v 50 ~/Development/code/Mod_1/guided-module-one-final-project-dumbo-web-051418/Pokemon_Theme_Song.mp3")
+    puts prof_oak
+  end
+
+  def prof_oak
+    oak = <<-OAK
+    #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
+    $                                                                                    #
+    #      Oak:    This world is inhabited by creatures called POKEMON! For some         $
+    $              people, POKEMON are pets. Others use them for fights. Myself...       #
+    #              I study POKEMON as a profession.                                      $
+    $                                                                                    #
+    #$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$#$
+    OAK
   end
 
   def verify_username(user_input)
