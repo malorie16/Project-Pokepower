@@ -126,10 +126,18 @@ class CommandLineInterface
     end
   end
 
-  def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
+  def check_users_pokeballs(user)
     users_team = get_own_team(user, "names")
     system("clear")
     if users_team.size >= 1
+      true
+    elsif users_team.size <= 0
+      false
+    end
+  end
+
+  def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
+    if check_users_pokeballs(user)
       team = get_own_team(user, "names")
       system("clear")
       counter = 0
@@ -137,11 +145,11 @@ class CommandLineInterface
          puts "#{counter += 1}. #{poke}"
        end
        stats == "yes" ? view_team_stats(user) : nil
-     elsif users_team.size <= 0
+     else
        puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to view!!"
        sleep(1)
+       show_menu(user)
      end
-     show_menu(user)
   end
 
   def stats_table(pokemon)
@@ -206,12 +214,11 @@ class CommandLineInterface
 
   def set_pokemon_free(user)
       #takes pokemon off team
-    users_team = get_own_team(user, "names")
-    if users_team.size >= 1
+    if check_users_pokeballs(user)
       users_team = view_team(user, "no")  #no refers to don't show team's pokemon's stats
       puts "Which Pokemon do you wanna remove, playa?"
       delete_pokemon(user, users_team)
-    elsif users_team.size <= 0
+    else
       system("clear")
       puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to release!!"
       sleep(1)
@@ -231,7 +238,8 @@ class CommandLineInterface
          end
        end
        system("clear")
-       puts "Poor #{deleted_pokemon}... I mean, you must've had your own reasons..."
+       deleted_pokemon_name = Pokemon.all.find(deleted_pokemon.pokemon_id)
+       puts "Poor #{deleted_pokemon_name}... I mean, you must've had your own reasons..."
        puts "AKA--you successfully set #{deleted_pokemon} free you evil son of a Rocket!"
        sleep(1)
      elsif user_input == "N"
