@@ -1,3 +1,4 @@
+require 'pry'
 class CommandLineInterface
 
   def greeting
@@ -22,9 +23,10 @@ class CommandLineInterface
   end
 
   def gauge_visitor(user_input)
-    if returning_trainer = Trainer.find_by(name: user_input.capitalize)
+    returning_trainer = Trainer.find_by(name: user_input.capitalize)
+    if returning_trainer != nil
       system("clear")
-      system "say 'Welcome back, #{returning_trainer.name}!'"
+      #system "say 'Welcome back, #{returning_trainer.name}!'"
       show_menu(returning_trainer)
     else
       user = create_new_user(user_input)
@@ -58,9 +60,11 @@ class CommandLineInterface
     user_input = gets.chomp.to_i
     if user_input == 1
       view_team(user)
-    end
+  elsif user_input == 2
+    add_pokemon(user)
   end
-
+  end
+#if team is empty => "You have no one here!"
   def view_team(user)
     team = user.pokemons.map do |pokemon|
       pokemon.name
@@ -112,15 +116,60 @@ class CommandLineInterface
 
 
 
+  def check_team_length(user)
 
+  end
 
+  def list_all_pokemon
+    counter = 0
+    puts "Here's a list to choose from:"
+    all_pokemon = Pokemon.all.map do |pokemon|
+      puts "#{counter += 1}. #{pokemon.name}"
+     end
+   end
 
+   def add_pokemon_to_team(user, user_response)
+     pokemon = Pokemon.find_by(name: user_response)
+       add_pokemon = Pokeball.create(pokemon_id: pokemon.id, trainer_id: user.id)
+       system("clear")
+       puts "You have a brand spanking new #{pokemon.name}!"
+   end
 
+   def want_another_pokemon
+     puts "Want another pokemon? (Y or N)"
+     user_response = poke_prompt
+     if user_response == "Y"
+       puts "Who do you want?"
+       user_request = gets.chomp.capitalize
+       add_pokemon_to_team(user, user_request)
+       system("clear")
+       puts "You have a brand new #{pokemon.name}!"
+     else
+       show_menu(user)
+     end
+   end
 
-  def add_pokemon_to_team
+   def poke_prompt
+     gets.chomp.capitalize
+   end
+
+  def add_pokemon(user)
     #adds pokemon to team
-    #player can only have 6 teams
+    #player can only have 6 pokemon
     #malorie
+    puts "Who do you want on your dream team? (Type Pokemon's name or IDK)"
+    user_input = poke_prompt
+    if user.pokeballs.length >= 6
+      puts "Your party is full!"
+      show_menu(user)
+    elsif user_input.downcase == "idk"
+      list_all_pokemon
+    elsif user.pokeballs.length < 6
+      add_pokemon_to_team(user, user_input)
+      want_another_pokemon
+    else
+      show_menu(user)
+    end
   end
 
 
@@ -174,3 +223,4 @@ class CommandLineInterface
   end
 
 end
+#binding.pry
