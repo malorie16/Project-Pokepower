@@ -43,7 +43,7 @@ class CommandLineInterface
   end
 
   def gauge_visitor(user_input)
-    sleep(0.3)
+    sleep(0.4)
     if returning_trainer = Trainer.find_by(name: user_input.capitalize)
       system("clear")
       puts "Welcome back, #{returning_trainer.name}!"
@@ -51,6 +51,8 @@ class CommandLineInterface
       returning_trainer
     else
       user = create_new_user(user_input)
+      #can have rival name in table too!
+      puts "#{user_input.upcase}! Your very own POKEMON legend is about to unfold! A world of dreams and adventures with POKEMON awaits! Let's go!"
       user
     end
   end
