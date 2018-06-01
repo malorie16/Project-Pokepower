@@ -1,6 +1,35 @@
 class CommandLineInterface
 
-  def greeting
+=begin_________________________
+      PROGRAM BOOT / #run
+      1. greeting
+      2. get_username
+      3. verify_username
+      4. gauge_visitor / create_new_user - only if user isn't in db (by name)
+      5. show_menu
+
+      VIEW TEAM
+      1. view_team - connected view_team_stats in case trainer is interested
+      2. menu 
+
+      ADD POKEMON
+      1.
+      2.
+
+      SET FREE
+      1. set_pokemon_free - checks for available pokemon to remove
+      2. delete_pokemon - setup and helper method
+      3. db_remove_pokemon - actual delete method
+
+      VIEW STATS
+      view_stats
+
+      EXIT
+      1. until '5' is entered when menu is open, allow all other functionality
+      AKA leaves program when '5' is entered in the menu
+=end
+
+  def greeting # num1 in #run
     message = <<-MESSAGE
     **********************************************************************
     *              "Welcome to Straight Outta Terminal's"                *
@@ -14,7 +43,7 @@ class CommandLineInterface
 
   def verify_username(user_input)
     puts "So you're #{user_input.capitalize}?"
-    puts "Yes or No"
+    puts "Y or N"
     user_input = gets.chomp
   end
 
@@ -25,41 +54,47 @@ class CommandLineInterface
     new_trainer = Trainer.create(name: user_input.capitalize, hometown: user_location.capitalize)
     system("clear")
     puts "That's dope. How's the weather in #{user_location.capitalize}? Are you ready to start your adventure?"
+    sleep(0.5)
   end
 
   def gauge_visitor(user_input)
-    sleep(1)
+    sleep(0.3)
     if returning_trainer = Trainer.find_by(name: user_input.capitalize)
       system("clear")
-      system "say 'Welcome back, #{returning_trainer.name}!'"
-      returning_trainer
+      puts "Welcome back, #{returning_trainer.name}!"
+      # system "say 'Welcome back, #{returning_trainer.name}!'"
     else
       user = create_new_user(user_input)
-      user
     end
   end
 
   def get_username
     puts "What's your nickname?"
     user_input = gets.chomp
-    result = verify_username(user_input).capitalize
-    if result == "Yes"
+    result = verify_username(user_input).upcase
+    if result == "Y"
       puts "What a lovely name!"
-      sleep(0.2)
+      sleep(0.3)
       puts "Menu loading..."
       gauge_visitor(user_input)
-    elsif result == "No"
+    elsif result == "N"
       get_username
     end
   end
 
-  def show_menu(user)
-    puts "Pick a number to get started! 👻 "
-    puts "1. View Team"
-    puts "2. Add Pokemon to team"
-    puts "3. Set pokemon free" #needs confirmation
-    puts "4. View Pokestats" #submenu
-    puts "5. Exit"
+  def menu
+    the_menu = <<-MENU
+    Pick a number to get started! 👻
+    1. View Team
+    2. Add Pokemon to team
+    3. Set pokemon free
+    4. View Pokestats
+    5. Exit
+    MENU
+  end
+
+  def show_menu(user) # num2 in #run
+    puts menu
     user_input = gets.chomp.to_i
     until user_input == 5
       case user_input
@@ -75,11 +110,10 @@ class CommandLineInterface
       when 4
         view_stats(user)
         break
-      # when 5
-      #   log_off
       else
         puts "Whaddya doing? Try again"
         show_menu(user)
+        break
       end
     end
   end
@@ -95,7 +129,7 @@ class CommandLineInterface
     end
   end
 
-  def view_team(user, stats)
+  def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
     team = get_own_team(user, "names")
     system("clear")
     counter = 0
@@ -139,10 +173,11 @@ class CommandLineInterface
       trainer.pokemons.each do |pokemon|
         puts stats_table(pokemon)
       end
-      show_menu(trainer)
     elsif user_input.upcase == "N"
-      show_menu(trainer)
+    else
+      puts "'Y or N' for Mewtwo's sake!"
     end
+    show_menu(trainer)
   end
 
   def view_stats(trainer)
@@ -157,18 +192,6 @@ class CommandLineInterface
   end
 
 
-
-
-
-
-
-
-
-
-
-
-
-
   def add_pokemon_to_team
     #adds pokemon to team
     #player can only have 6 teams
@@ -176,83 +199,56 @@ class CommandLineInterface
   end
 
 
-
-
-
-
-
-
-
-
-
-
-
   def set_pokemon_free(user)
       #takes pokemon off team
-     puts "Do you wanna set them free? Do you really? (Y or N)"
-     user_input = gets.chomp
-     if user_input.upcase == "Y"
-       users_team = view_team(user, "no")
-       puts "Which Pokemon do you wanna remove, playa?"
-       # system("clear")
-       user_yes(user, users_team)
-     elsif user_input.upcase == "N"
-       user_no
+    users_team = get_own_team(user, "names")
+    if users_team.size >= 1
+      users_team = view_team(user, "no")  #no refers to don't show team's pokemon's stats
+      puts "Which Pokemon do you wanna remove, playa?"
+      delete_pokemon(user, users_team)
+    elsif users_team.size <= 0
+      "Oh no! You're too weak to have any pokemon. You, #{user}, don't have any!!"
+    end
+    show_menu(user)
+   end
+
+   def db_remove_pokemon(user, pokemon)
+     puts "You DEADASS tryna delete #{pokemon.name}???? (Y or N)"
+     # system("say 'You DEADASS tryna delete #{delete_pokemon.name}????'")
+     user_input = gets.chomp.upcase
+     if user_input == "Y"
+       deleted_pokemon = nil
+       user.pokeballs.each do |pokeball|
+         if pokeball.pokemon_id == pokemon.id && pokeball.trainer_id == user.id
+           deleted_pokemon = user.pokeballs.delete(pokeball.id)
+         end
+       end
+       system("clear")
+       puts "Poor #{deleted_pokemon}... I mean, you must've had your own reasons..."
+       puts "AKA--you successfully set #{deleted_pokemon} free you evil son of a Rocket!"
+       sleep(1)
+     elsif user_input == "N"
        show_menu(user)
+     else
+       puts "Uhh, #{user}--I think you got a typo.."
+       db_remove_pokemon(user, pokemon)
      end
    end
 
-   def user_yes(user, users_team)
+   def delete_pokemon(user, users_team)
      # what happens if they say yes
      puts users_team
      raw_team = get_own_team(user, "team")
-     # user_input 1 -> get_own_team 0
-     # pokemon
-     # poke_length = pokemon.length
-     # pokemon[3..poke_length]
      user_input = gets.chomp.to_i
-     if user_input == 1
-       delete_pokemon = raw_team[0]
-       puts "You DEADASS tryna delete #{delete_pokemon.name}????"
-       # system("say 'You DEADASS tryna delete #{delete_pokemon.name}????'")
-       puts delete_pokemon.id
-       pokeball_ids = user.pokeballs.map{|pokeball| pokeball.pokemon_id}
-       puts pokeball_ids
 
-     elsif user_input == 2
-     elsif user_input == 3
-     elsif user_input == 4
-     elsif user_input == 5
-     elsif user_input == 6
+     if user_input > 0 && user_input <= 6
+       pokemon = raw_team[(user_input-1)]
+       db_remove_pokemon(user, pokemon)
+     else
+       puts "Getting nervous? Second guesses? Cause, you've got a typo or something. #{user}, try again with the list number!"
+       sleep(0.5)
      end
    end
-
-   def user_no
-     # what happens if they say no
-     puts "Woo! That was a close one. The Pokemon are safe.. for now."
-     puts "Back to the menu we go!"
-   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   def run
     greeting
