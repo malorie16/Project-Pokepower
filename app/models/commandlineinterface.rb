@@ -73,12 +73,20 @@ class CommandLineInterface
 
   def menu
     the_menu = <<-MENU
-    Pick a number to get started! 👻
-    1. View Team
-    2. Add Pokemon to team
-    3. Set pokemon free
-    4. View Pokestats
-    5. Exit
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    * "It's unsafe! Wild POKEMON live in tall grass!*
+    * You need your own POKEMON for your protection.*
+    *        I know! Here, come with me!"           *
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    *        Pick a number to get started! 👻       *
+    *            1. View Team                       *
+    *            2. Add Pokemon to team             *
+    *            3. Set pokemon free                *
+    *            4. View Pokestats                  *
+    *            5. Exit                            *
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     MENU
   end
 
