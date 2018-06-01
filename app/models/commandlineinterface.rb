@@ -20,6 +20,7 @@ class CommandLineInterface
     new_trainer = Trainer.create(name: user_input.capitalize, hometown: user_location.capitalize)
     system("clear")
     puts "That's dope. How's the weather in #{user_location.capitalize}? Are you ready to start your adventure?"
+    new_trainer
   end
 
   def gauge_visitor(user_input)
@@ -66,6 +67,7 @@ class CommandLineInterface
   end
 #if team is empty => "You have no one here!"
   def view_team(user)
+    puts user.pokemons.reload
     team = user.pokemons.map do |pokemon|
       pokemon.name
     end
@@ -117,7 +119,9 @@ class CommandLineInterface
 
 
   def check_team_length(user)
-
+      team = user.pokemons.reload.map do |pokemon|
+      pokemon.name
+    end
   end
 
   def list_all_pokemon
@@ -129,10 +133,15 @@ class CommandLineInterface
    end
 
    def add_pokemon_to_team(user, user_response)
+     if Pokemon.find_by(name: user_response) == nil
+       puts "Whatchu talmbout?"
+       add_pokemon(user)
+     else
      pokemon = Pokemon.find_by(name: user_response)
        add_pokemon = Pokeball.create(pokemon_id: pokemon.id, trainer_id: user.id)
        system("clear")
        puts "You have a brand spanking new #{pokemon.name}!"
+     end
    end
 
    def want_another_pokemon(user)
@@ -149,13 +158,13 @@ class CommandLineInterface
      gets.chomp.capitalize
    end
 
+
+
   def add_pokemon(user)
-    #adds pokemon to team
-    #player can only have 6 pokemon
-    #malorie
     puts "Who do you want on your dream team? (Type Pokemon's name or IDK)"
     user_input = poke_prompt
-    if user.pokeballs.length >= 6
+
+    if check_team_length(user).length >= 6
       puts "Your party is full!"
       show_menu(user)
     elsif user_input.downcase == "idk"
