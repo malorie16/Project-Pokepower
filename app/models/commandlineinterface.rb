@@ -121,6 +121,7 @@ class CommandLineInterface
         break
       else
         puts "Whaddya doing? Try again"
+        sleep(1)
         show_menu(user)
         break
       end
@@ -148,7 +149,7 @@ class CommandLineInterface
     end
   end
 
-  def view_team(user, stats)                #NEED TO RELOAD DATA AFTER DELETION
+  def view_team(user, stats)
     user.reload
     if check_users_pokeballs(user)
       team = get_own_team(user, "names")
@@ -218,9 +219,15 @@ class CommandLineInterface
     puts "Enter this Pokemon's name when you're ready!"
     user_input = gets.chomp.capitalize
     found_pokemon = Pokemon.all.find_by(name: user_input)
-    system("clear")
-    puts stats_table(found_pokemon)
-    loop_stats(trainer)
+    if found_pokemon != nil
+      system("clear")
+      puts stats_table(found_pokemon)
+      loop_stats(trainer)
+    else
+      system("clear")
+      puts "fuhgeddaboudit, there ain't a Pokemon named #{user_input}!"
+      sleep(1)
+    end
     show_menu(trainer)
   end
 
@@ -234,12 +241,11 @@ class CommandLineInterface
 
   def set_pokemon_free(user)
       #takes pokemon off team
-      user.reload 
+      user.reload
     if check_users_pokeballs(user)
       users_team = view_team(user, "no")  #no refers to don't show team's pokemon's stats
       puts "Which Pokemon do you wanna remove, playa?"
       delete_pokemon(user, users_team)
-      # load "db/development.db"
     else
       system("clear")
       puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to release!!"
