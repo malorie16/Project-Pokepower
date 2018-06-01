@@ -193,14 +193,18 @@ class CommandLineInterface
   def view_team_stats(trainer)
     #for specific user's team
     puts "Would you like to see these guys' stats? (Y or N)"
-    user_input = gets.chomp
-    if user_input.upcase == "Y"
+    user_input = gets.chomp.upcase
+    until user_input == "Y" || user_input == "N"
+      puts "It isn't difficult to type 'Y' or 'N' you know..."
+      user_input = gets.chomp.upcase
+    end 
+    if user_input == "Y"
       system("clear")
       puts "Get ready for your dream team's stats!"
       trainer.pokemons.each do |pokemon|
         puts stats_table(pokemon)
       end
-    elsif user_input.upcase == "N"
+    elsif user_input == "N"
     else
       system("clear")
       puts "'Y or N' for Mewtwo's sake!"
