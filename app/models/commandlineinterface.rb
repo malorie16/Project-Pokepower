@@ -1,4 +1,9 @@
 class CommandLineInterface
+  #play song throughout program
+  #play diff song in each method
+  #play intro with greeting
+  #play poke center with menu
+  #play theme song with add pokemon
 
   def greeting # num1 in #run
     message = <<-MESSAGE
@@ -40,6 +45,7 @@ class CommandLineInterface
     system("clear")
     puts "That's dope. How's the weather in #{user_location.capitalize}? Are you ready to start your adventure?"
     sleep(0.5)
+    new_trainer
   end
 
   def gauge_visitor(user_input)
@@ -231,6 +237,7 @@ class CommandLineInterface
       users_team = view_team(user, "no")  #no refers to don't show team's pokemon's stats
       puts "Which Pokemon do you wanna remove, playa?"
       delete_pokemon(user, users_team)
+      load "db/development.db"
     else
       system("clear")
       puts "Oh no! You're too weak to have any pokemon. You, #{user.name}, don't have any to release!!"
@@ -251,9 +258,9 @@ class CommandLineInterface
          end
        end
        system("clear")
-       deleted_pokemon_name = Pokemon.all.find(deleted_pokemon.pokemon_id)
+       deleted_pokemon_name = Pokemon.all.find(deleted_pokemon.first.pokemon_id).name
        puts "Poor #{deleted_pokemon_name}... I mean, you must've had your own reasons..."
-       puts "AKA--you successfully set #{deleted_pokemon} free you evil son of a Rocket!"
+       puts "AKA--you successfully set #{deleted_pokemon_name} free you evil son of a Rocket!"
        sleep(1)
      elsif user_input == "N"
        show_menu(user)
@@ -273,7 +280,7 @@ class CommandLineInterface
        pokemon = raw_team[(user_input-1)]
        db_remove_pokemon(user, pokemon)
      else
-       puts "Getting nervous? Second guesses? Cause, you've got a typo or something. #{user}, try again with the list number!"
+       puts "Getting nervous? Second guesses? Cause, you've got a typo or something. #{user.name}, try again with the list number!"
        sleep(0.5)
      end
    end
