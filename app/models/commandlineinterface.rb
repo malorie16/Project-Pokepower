@@ -15,7 +15,7 @@ class CommandLineInterface
     **********************************************************************
     MESSAGE
     puts message
-     # system("afplay -v 50 /Users/maloriecasimir/Flatironwoo/guided-module-one-final-project-dumbo-web-051418/Pokemon_Intro.mp3")
+     pid = fork{ exec 'afplay', "All Main Pokémon Game OPenings (GB, GBC, GBA, NDS) (1).mp3"}
     puts prof_oak
   end
 
@@ -333,8 +333,6 @@ class CommandLineInterface
      gets.chomp.capitalize
    end
 
-
-
   def add_pokemon(user)
     puts "Who do you want on your dream team? (Type Pokemon's name or IDK)"
     user_input = poke_prompt
@@ -356,6 +354,7 @@ class CommandLineInterface
   def run
     greeting
     show_menu(get_username)
+    pid = fork{ exec 'killall', "afplay" }
   end
 
 end
