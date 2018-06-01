@@ -78,9 +78,15 @@ class CommandLineInterface
     * You need your own POKEMON for your protection.*
     *        I know! Here, come with me!"           *
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
+                        *
+                        *
+                        *
+                        *
+                        *
      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    *        Pick a number to get started! 👻       *
+            Pick a number to get started! 👻
+     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    *                                               *
     *            1. View Team                       *
     *            2. Add Pokemon to team             *
     *            3. Set pokemon free                *
@@ -193,6 +199,12 @@ class CommandLineInterface
     show_menu(trainer)
   end
 
+  def loop_stats(trainer)
+    puts "Did #{trainer.name} seek another Pokemon's data? (Y or N)"
+    user_input = gets.chomp.upcase
+    user_input=="Y" ? view_stats(trainer) : system("clear")
+  end
+
   def view_stats(trainer)
     #for submenu
     puts "Which Pokemon's stats does yee heart desire?"
@@ -201,6 +213,7 @@ class CommandLineInterface
     found_pokemon = Pokemon.all.find_by(name: user_input)
     system("clear")
     puts stats_table(found_pokemon)
+    loop_stats(trainer)
     show_menu(trainer)
   end
 
