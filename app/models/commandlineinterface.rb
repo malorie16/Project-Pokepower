@@ -15,7 +15,7 @@ class CommandLineInterface
     **********************************************************************
     MESSAGE
     puts message
-     system("afplay -v 50 ~/Development/code/Mod_1/guided-module-one-final-project-dumbo-web-051418/Pokemon_Theme_Song.mp3")
+     # system("afplay -v 50 /Users/maloriecasimir/Flatironwoo/guided-module-one-final-project-dumbo-web-051418/Pokemon_Intro.mp3")
     puts prof_oak
   end
 
@@ -38,7 +38,6 @@ class CommandLineInterface
   end
 
   def create_new_user(user_input)
-    system("clear")
     puts "Welcome #{user_input.capitalize}! Where are you from?"
     user_location = gets.chomp
     new_trainer = Trainer.create(name: user_input.capitalize, hometown: user_location.capitalize)
