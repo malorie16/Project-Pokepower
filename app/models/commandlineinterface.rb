@@ -202,7 +202,9 @@ class CommandLineInterface
       end
     elsif user_input.upcase == "N"
     else
+      system("clear")
       puts "'Y or N' for Mewtwo's sake!"
+      sleep(1)
     end
     show_menu(trainer)
   end
@@ -289,7 +291,7 @@ class CommandLineInterface
        db_remove_pokemon(user, pokemon)
      else
        puts "Getting nervous? Second guesses? Cause, you've got a typo or something. #{user.name}, try again with the list number!"
-       sleep(0.5)
+       sleep(1)
      end
    end
 
