@@ -197,7 +197,7 @@ class CommandLineInterface
     until user_input == "Y" || user_input == "N"
       puts "It isn't difficult to type 'Y' or 'N' you know..."
       user_input = gets.chomp.upcase
-    end 
+    end
     if user_input == "Y"
       system("clear")
       puts "Get ready for your dream team's stats!"
@@ -221,6 +221,7 @@ class CommandLineInterface
 
   def find_stats_submenu(trainer)
     puts "Did ya wanna find Poke stats by (1)name, or by (2)pokedex number?"
+    sleep(1.4)
     puts "Enter the number, or else we'll release a Gengar in your bedroom."
 
     user_input = gets.chomp.to_i
@@ -255,6 +256,16 @@ class CommandLineInterface
   def find_stats_by_id
     puts "Enter the Pokedex ID now! The faster the better."
     user_input = gets.chomp.to_i
+    pokedex_ids = 1..151
+    until pokedex_ids.include?(user_input)
+      puts "Let me throw some knowledge on you--there are only 151 Pokemon as of today."
+      sleep(0.7)
+      puts "You are out of usable Pokemon!"
+      sleep(0.3)
+      puts "You blacked out!"
+      sleep(0.2)
+      user_input = gets.chomp.to_i
+    end
     found_pokemon = Pokemon.all.find(user_input)
     puts stats_table(found_pokemon)
   end
@@ -262,6 +273,7 @@ class CommandLineInterface
   def view_stats(trainer)
     #for submenu
     puts "Which Pokemon's stats does yee heart desire?"
+    sleep(1.3)
     find_stats_submenu(trainer)
     sleep(1)
     puts "Did you wanna continue Prof Oak's research??? (Y/N)"
